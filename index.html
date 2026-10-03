@@ -17,7 +17,6 @@
 <div class="modal" id="modal"><div class="modal-box"><h2>Agregar una carta 💗</h2><input id="nuevoTitulo" placeholder="Título de la carta"><textarea id="nuevoTexto" placeholder="Escribe aquí tu carta..."></textarea><div class="acciones"><button onclick="cerrarModal()">Cancelar</button><button class="guardar" onclick="guardarCarta()">Guardar carta</button></div></div></div>
 
 <script type="module">
-<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sorpresa-para-ella/firebase-messaging-sw.js").catch(console.error)}</script>
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
 import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-messaging.js";
