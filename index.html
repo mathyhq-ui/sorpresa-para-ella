@@ -17,12 +17,24 @@
 <div class="modal" id="modal"><div class="modal-box"><h2>Agregar una carta 💗</h2><input id="nuevoTitulo" placeholder="Título de la carta"><textarea id="nuevoTexto" placeholder="Escribe aquí tu carta..."></textarea><div class="acciones"><button onclick="cerrarModal()">Cancelar</button><button class="guardar" onclick="guardarCarta()">Guardar carta</button></div></div></div>
 
 <script type="module">
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sorpresa-para-ella/firebase-messaging-sw.js").catch(console.error)}</script>
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-database.js";
+import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-messaging.js";
 
 const firebaseConfig={apiKey:"AIzaSyACMTrvEbIEi9OrWCaodEmcGTGcdyVEosE",authDomain:"sorpresa-para-nicole.firebaseapp.com",projectId:"sorpresa-para-nicole",storageBucket:"sorpresa-para-nicole.firebasestorage.app",messagingSenderId:"426658546390",appId:"1:426658546390:web:4d02e56a326f7349957f77"};
 const app=initializeApp(firebaseConfig);
 const db=getDatabase(app);
+const messaging=getMessaging(app);
+const VAPID_KEY="BEHcMVftKDotqtt8b3EgpcdxG1DQSaL2yEfLhFMUBqb29V2ET4oPg7H4qyADTc44QG0bAexgLPZaffwStPgcY0Q";
+async function activarNotificaciones(){
+  if(!("Notification" in window)) return;
+  const permiso=await Notification.requestPermission();
+  if(permiso!=="granted") return;
+  try{const registro=await navigator.serviceWorker.ready; await getToken(messaging,{vapidKey:VAPID_KEY,serviceWorkerRegistration:registro});}catch(e){console.error(e)}
+}
+window.activarNotificaciones=activarNotificaciones;
+onMessage(messaging,()=>{});
 const cartasRef=ref(db,"cartasAmor");
 
 const inicio=new Date(2026,2,12,0,0,0);
@@ -35,7 +47,8 @@ const CONTRASENA=String.fromCharCode(49,50,48,51,50,54);
 
 function calcularTiempo(){const ahora=new Date();let meses=(ahora.getFullYear()-inicio.getFullYear())*12+(ahora.getMonth()-inicio.getMonth());let fechaMeses=new Date(inicio);fechaMeses.setMonth(inicio.getMonth()+meses);if(fechaMeses>ahora){meses--;fechaMeses=new Date(inicio);fechaMeses.setMonth(inicio.getMonth()+meses)}const dias=Math.floor((ahora-fechaMeses)/86400000);document.getElementById("contador").innerHTML='<div class="grupo"><span class="etiqueta">meses</span><span class="caja-numero">'+meses+'</span></div><span class="separador">y</span><div class="grupo"><span class="etiqueta">días</span><span class="caja-numero">'+dias+'</span></div>'}
 
-window.abrir=function(){document.getElementById("inicio").style.display="none";document.getElementById("sorpresa").classList.add("show");renderCartas();setInterval(()=>{let e=document.createElement("span");e.className="float";e.textContent=Math.random()>.5?"💗":"✦";e.style.left=Math.random()*100+"vw";e.style.fontSize=12+Math.random()*15+"px";document.body.appendChild(e);setTimeout(()=>e.remove(),7000)},700)}
+window.abrir=function(){
+  activarNotificaciones();document.getElementById("inicio").style.display="none";document.getElementById("sorpresa").classList.add("show");renderCartas();setInterval(()=>{let e=document.createElement("span");e.className="float";e.textContent=Math.random()>.5?"💗":"✦";e.style.left=Math.random()*100+"vw";e.style.fontSize=12+Math.random()*15+"px";document.body.appendChild(e);setTimeout(()=>e.remove(),7000)},700)}
 
 function todasLasCartas(){return [cartaInicial,...cartasFirebase]}
 
