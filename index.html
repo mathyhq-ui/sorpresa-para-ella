@@ -26,7 +26,9 @@ const db=getDatabase(app);
 let messaging=null;
 try{messaging=getMessaging(app)}catch(e){console.warn("Notificaciones no disponibles en este navegador",e)}
 const VAPID_KEY="BEHcMVftKDotqtt8b3EgpcdxG1DQSaL2yEfLhFMUBqb29V2ET4oPg7H4qyADTc44QG0bAexgLPZaffwStPgcY0Q";
-async function activarNotificaciones(){}\nwindow.activarNotificaciones=activarNotificaciones;\nconst cartasRef=ref(db,"cartasAmor");
+async function activarNotificaciones(){}
+window.activarNotificaciones=activarNotificaciones;
+const cartasRef=ref(db,"cartasAmor");
 
 const inicio=new Date(2026,2,12,0,0,0);
 const cartaInicial={titulo:"Para ti, mi princesa",texto:"Eres la mujer más especial en mi vida, la mujer que a pesar de las peleas y los errores que he cometido nunca se ha ido, te amo infinitamente y espero me perdones porque eres la mujer con la cual me imagino un futuro y cumpliendo todo lo que hemos hablado.\n\nSé que no soy el mejor, pero espero me des la oportunidad de cambiar junto a ti y corregir todos mis errores y defectos, para así por lo menos acercarme al hombre que usted se merece, porque una princesa como usted siempre va a merecer lo mejor.\n\nTe pido perdón por lo que hice y cómo te hice sentir, que aunque no lo hice con mala intención, así lo vio usted. Sé que se puede sentir confundida porque es normal, pero le prometo que si las cosas siguen, mucho va a cambiar y trataré de mejorar en todo lo que pueda.\n\nSé que me pidió un tiempo y no busco presionarla para que tome una decisión, solo quería decirle lo que siento y cuánto la amo, porque desde ayer no paro de pensar en lo que pasó y cómo por una idiotez mía estamos así.\n\nSe lo juro que he llorado porque no la quiero perder y porque me siento como la mierda por hacer sufrir a la mujer que más amo y la que me hizo enamorarme de nuevo."};
